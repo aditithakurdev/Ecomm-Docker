@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../../models/user/userModel')
 const sendEmail = require('../../email/sendEmail');
 
+//create new user
 const createUser = async ({ name, email, password }) => {
   const existingUser = await User.findOne({ where: { email } });
   if (existingUser) {
@@ -30,6 +31,7 @@ const createUser = async ({ name, email, password }) => {
 
 };
 
+//Login user
 const loginUser = async ({ email, password }) => {
   const user = await User.findOne({
     where: { email },
@@ -67,6 +69,7 @@ const loginUser = async ({ email, password }) => {
   };
 };
 
+//Get User profile
 const getUserProfile = async (userId) => {
   const user = await User.findByPk(userId);
   if (!user) {
@@ -75,6 +78,7 @@ const getUserProfile = async (userId) => {
   return user;
 };
 
+//Generate Token
 const generateTokens = (user) => {
   const accessToken = jwt.sign(
     { id: user.id, email: user.email },
@@ -91,6 +95,7 @@ const generateTokens = (user) => {
   return { accessToken, refreshToken };
 };
 
+// Refresh access token
 const refreshAccessToken = async (refreshToken) => {
   console.log('Incoming refreshToken:', refreshToken);
 
@@ -118,9 +123,12 @@ const refreshAccessToken = async (refreshToken) => {
   }
 };
 
+//Generate OTP
 function generateOTP() {
   return Math.floor(1000 + Math.random() * 9000).toString();
 }
+
+//Forget Password
 const forgotPassword = async (email) => {
   const user = await User.findOne({ where: { email } });
 
@@ -139,6 +147,7 @@ const forgotPassword = async (email) => {
   return { message: 'OTP sent to your email' };
 };
 
+//Verify  OTP
 const verifyOTP = async (otp) => {
   const user = await User.findOne({ where: { otp: otp } });
 
@@ -157,6 +166,7 @@ const verifyOTP = async (otp) => {
   };
 };
 
+//Refresh Password with OTP
 const resetPasswordWithOtp = async ({ otp, newPassword, confirmPassword }) => {
   // Ensure OTP is a string (to match DB)
   const otpString = otp.toString().trim();
@@ -183,6 +193,7 @@ const resetPasswordWithOtp = async ({ otp, newPassword, confirmPassword }) => {
   return { message: 'Password updated successfully' };
 };
 
+//Verify Reset Token
 const verifyResetToken = async (token) => {
   const user = await User.findOne({
     where: {
