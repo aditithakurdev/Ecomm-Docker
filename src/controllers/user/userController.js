@@ -1,6 +1,7 @@
 const { createUser, loginUser, getUserProfile,refreshAccessToken, forgotPassword, resetPasswordWithOtp,verifyResetToken,verifyOTP,validateResetPasswordWithOtp } = require('../../services/user/user.service');
 const { validationResult } = require('express-validator');
 
+//create user
 exports.createUser = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -22,6 +23,7 @@ exports.createUser = async (req, res) => {
   }
 };
 
+//login user
 exports.loginUser = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -45,6 +47,7 @@ exports.loginUser = async (req, res) => {
   }
 };
 
+//Get specific user 
 exports.getProfile = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -66,6 +69,7 @@ exports.getProfile = async (req, res) => {
   }
 };
 
+//Refresh Token
 exports.refreshToken = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -86,6 +90,7 @@ exports.refreshToken = async (req, res) => {
   }
 };
 
+// Forget Password
 exports.forgotPassword = async (req, res) => {
   try {
     const errors = validationResult(req);
@@ -100,6 +105,7 @@ exports.forgotPassword = async (req, res) => {
   }
 };
 
+//Verify OTP
 exports.verifyOTP = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -117,6 +123,7 @@ exports.verifyOTP = async (req, res) => {
   }
 };
 
+//ResetPassword With OTP
 exports.resetPasswordWithOtp = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -139,6 +146,7 @@ exports.resetPasswordWithOtp = async (req, res) => {
   }
 };
 
+//Verfy Reser Token
 exports.verifyResetToken = async (req, res) => {
   try {
     const { token } = req.query;
